@@ -1,24 +1,32 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <food-head></food-head>
+    <food-content></food-content>
   </div>
-
 </template>
 
-<script>
-export default {
-  name: 'app'
-}
+<script type="text/ecmascript-6">
+  require("./assets/font-awesome.min.css")
+  import foodhead from "./components/header.vue"
+  import foodcontent from "./components/content.vue"
+  require("assets/normalize.css")
+  export default {
+    name: 'app',
+    components: {"food-head": foodhead, "food-content": foodcontent}
+  }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style rel="stylesheet/less" lang="less">
+  * {
+    margin: 0;
+    padding: 0
+  }
+
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+
+  }
 </style>
