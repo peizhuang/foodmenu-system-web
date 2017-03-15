@@ -1,19 +1,31 @@
 {
   "presets": [
-    ["es2015", { "modules": false }],
+    [
+      "es2015",
+      {
+        "modules": false
+      }
+    ],
     "stage-2"
   ],
-  "plugins": ["transform-runtime",["component", [
-    {
-      "libraryName": "element-ui",
-      "styleLibraryName": "theme-default"
-    }
-  ]]],
-//  "plugins": ["transform-runtime"],
+  "plugins": [
+    "transform-runtime",
+    [
+      "component",
+      [
+        {
+          "libraryName": "element-ui",
+          "styleLibraryName": "theme-default"
+        }
+      ]
+    ]
+  ],
   "comments": false,
   "env": {
     "test": {
-      "plugins": [ "istanbul" ]
+      "plugins": [
+        "istanbul"
+      ]
     }
   }
 }
