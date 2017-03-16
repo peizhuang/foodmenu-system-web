@@ -3,6 +3,7 @@
     <food-head></food-head>
     <food-content></food-content>
   </div>
+
 </template>
 
 <script type="text/ecmascript-6">

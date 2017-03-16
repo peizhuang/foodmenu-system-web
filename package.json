@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
+    "babel-runtime": "^6.23.0",
     "element-ui": "^1.2.4",
     "less-loader": "^2.2.3",
     "normalize.less": "^1.0.0",
     "vue": "^2.1.10",
+    "vue-i18n": "^6.0.0-alpha.5",
     "vue-router": "^2.2.0"
   },
   "devDependencies": {

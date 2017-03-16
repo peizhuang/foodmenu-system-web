@@ -6,6 +6,35 @@
   text-align: center;
 }
 
+.type_view {
+  position: absolute;
+  right: 0;
+  top: 6px;
+  border: 1px solid #C0CCDA;
+  border-radius: 3px;
+  display: flex;
+  span {
+    padding: 6px;
+    font-size: 1.2em;
+    border-right: 1px solid #C0CCDA;
+    cursor: pointer;
+    color: #20A0FF;
+    &:hover {
+      background-color: #EEF1F6;
+    }
+    flex: 1;
+  }
+  .active {
+    background-color: #EEF1F6;
+  }
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 ul, li {
   list-style: none;
 }

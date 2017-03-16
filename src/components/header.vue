@@ -54,16 +54,16 @@
     <el-row :style="{width:'100%'}">
       <el-col :xs="{span:24}" :sm="{span:22,offset:1}" :md="{span:20,offset:2}" :lg="{span:18,offset:3}"
               :class="'flex'">
-        <div class="logo">半步颠</div>
+        <div class="logo">Title</div>
         <ul class="menu">
           <li>
-            <router-link :to="{name:'table'}" active-class="active">客桌</router-link>
+            <router-link :to="{name:'table'}" active-class="active">menu3</router-link>
           </li>
           <li>
-            <router-link :to="{name:'reservation'}" active-class="active">预定</router-link>
+            <router-link :to="{name:'reservation'}" active-class="active">menu2</router-link>
           </li>
           <li>
-            <router-link :to="{name:'food'}" active-class="active">菜品</router-link>
+            <router-link :to="{name:'food'}" active-class="active">menu1</router-link>
           </li>
         </ul>
       </el-col>
