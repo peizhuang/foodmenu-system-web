@@ -1,9 +1,50 @@
 <style rel="stylesheet/less" lang="less" scoped>
   @import "../assets/base";
 
+  #titleName {
+    padding: .6em;
+    border: 1px solid #D3DCE6;
+    border-radius: 4px;
+    flex: 1;
+  }
+
+  .titleInfo {
+    display: flex;
+    align-items: baseline;
+  }
+
   .food {
     margin-top: 40px;
     position: relative;
+    .pageaction {
+      position: absolute;
+      right: 0;
+      top: 6px;
+      display: flex;
+      .action {
+        margin-right: 1em;
+      }
+      .type_view {
+        border: 1px solid #C0CCDA;
+        border-radius: 3px;
+        display: flex;
+        span {
+          padding: 6px;
+          font-size: 1.2em;
+          border-right: 1px solid #C0CCDA;
+          cursor: pointer;
+          color: #20A0FF;
+          &:hover {
+            background-color: #EEF1F6;
+          }
+          flex: 1;
+        }
+        .active {
+          background-color: #EEF1F6;
+        }
+      }
+    }
+
   }
 
   .card_info {
@@ -65,12 +106,14 @@
     display: block;
   }
 
+  .test {
+    background-color: rgba(0, 0, 0, .6);
+  }
 
 </style>
 
 <template>
   <div class="food">
-    <div>{{$t('hello')}}</div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane :label="val.label" :name="val.name" v-for="(val ,index) of foodSerious">
 
@@ -138,25 +181,44 @@
 
       </el-tab-pane>
     </el-tabs>
-    <li class="type_view">
-      <el-tooltip class="item" effect="dark" content="表格视图" placement="bottom">
-        <span class="table_view fa fa-list" :class="[{active:type_active == 'table_view'}]"
+    <div class="pageaction">
+      <li class="action">
+        <el-button type="text" class="fa fa-pencil" @click="titleEditDialogShow">编辑菜系</el-button>
+      </li>
+      <div class="type_view">
+        <el-tooltip class="item" effect="dark" content="表格视图" placement="bottom">
+        <span class="table_view fa fa-list-alt" :class="[{active:type_active == 'table_view'}]"
               @click="changeView('table_view')"></span>
-      </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="卡片视图" placement="bottom">
-      <span class="picture_view fa fa-table"
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="卡片视图" placement="bottom">
+      <span class="picture_view fa fa-th"
             :class="[{active:type_active == 'picture_view'}]" @click="changeView('picture_view')"></span>
-      </el-tooltip>
+        </el-tooltip>
+      </div>
 
-    </li>
+    </div>
+    <el-dialog id="dialog" title="标题信息" v-model="titleEditSeriousVisible" size="tiny" :class="['text_left']">
+
+      <div class="titleInfo">
+        <label for="titleName">名称：</label>
+        <input type="text" id="titleName" placeholder="请输入名称" v-model="titleName">
+      </div>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="titleEditSeriousVisible = false">取 消</el-button>
+        <el-button type="primary" @click="titleInfoSubmit">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import {TableColumn, Table, Tabs, TabPane, Tooltip, Col, Row, Card, Button} from 'element-ui';
+  import {TableColumn, Table, Tabs, TabPane, Tooltip, Col, Row, Card, Button, Dialog, Loading} from 'element-ui';
+
   export default {
     data() {
       return {
+        titleName: "",
         foodSerious: [{name: "user", label: "用户管理"}, {name: "config", label: "配置管理"}, {name: "role", label: "角色管理"}],
         tableData: [{
           date: '2016-05-02',
@@ -177,8 +239,9 @@
         }],
         currentRow: null,
         activeName: 'user',
-        type_active: "table_view"
-//        currentDate: new Date()
+        type_active: "table_view",
+        titleEditSeriousVisible: false,
+        loading2: false
       }
 
     },
@@ -191,9 +254,37 @@
       elCol: Col,
       elRow: Row,
       elCard: Card,
-      elButton: Button
+      elButton: Button,
+      elDialog: Dialog
     },
+    /* directives: {
+     loading: Loading
+     },*/
     methods: {
+      //显示标题信息修改模态框
+      titleEditDialogShow(){
+        this.titleEditSeriousVisible = true;
+      },
+      //提交标题信息
+      titleInfoSubmit(){
+        this.titleEditSeriousVisible = false;
+        let load = Loading.service({
+          target: ".food",
+          text: "正在提交。。。"
+        });
+        this.axios.post("sadf", {
+            title: this.titleName
+          }
+        ).then(function (d) {
+          load.close();
+          this.titleEditSeriousVisible = false
+        }).catch(function (e) {
+          load.close();
+//          alert(e);
+        });
+
+      },
+
       handleClick(tab, event){
         console.log(tab, event)
       },

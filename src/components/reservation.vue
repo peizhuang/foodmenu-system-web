@@ -2,7 +2,7 @@
 </style>
 
 <template>
-  <div>reservation</div>
+  <div> <div>{{$t('hello')}}</div></div>
 </template>
 
 <script type="text/ecmascript-6">

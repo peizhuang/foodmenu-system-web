@@ -4,15 +4,13 @@
 
 
 export default {
-  zh: {},
+  zh: {
+    hello: "你好全世界"
+  },
   en: {
-    message: {
-      hello: 'hello world'
-    }
+    hello: 'hello world'
   },
   ja: {
-    message: {
-      hello: 'こんにちは、世界'
-    }
+    // hello: 'こんにちは、世界'
   }
 };

@@ -3,31 +3,18 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 import VueI18n from 'vue-i18n'
+import messages from './locales/index'
 
-
+Vue.prototype.axios = axios;
 // install plugin
 Vue.use(VueI18n);
 
-
 const i18n = new VueI18n({
-  locale: 'ja',
-  messages: {
-    ja: {
-      hello: 'こんにちは'
-    },
-    en: {
-      hello: 'hello'
-    }
-  }
-})
-
-// set locales
-/*
- Object.keys(locales).forEach(function (lang) {
- Vue.locale(lang, locales[lang]);
- });
- */
+  locale: 'zh',
+  messages
+});
 
 
 new Vue({

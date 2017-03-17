@@ -24,7 +24,7 @@
         padding: 2rem 20px;
         a {
           vertical-align: sub;
-          color: #F9FAFC;
+          color: #EFF2F7;
           font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
           &:hover {
             color: white;
@@ -44,6 +44,21 @@
           }
         }
       }
+      .set_lang {
+        span {
+          vertical-align: sub;
+        }
+        .lang {
+          cursor: pointer;
+          color: #EFF2F7;
+          font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+        }
+        .selectlang {
+          color: white;
+          font-weight: bold;
+        }
+      }
+
     }
 
   }
@@ -56,6 +71,11 @@
               :class="'flex'">
         <div class="logo">Title</div>
         <ul class="menu">
+          <li class="set_lang">
+            <span :class="[{selectlang:$i18n.locale=='zh'},'lang']" @click="$i18n.locale='zh' ">中文</span>
+            <span>/</span>
+            <span :class="[{selectlang:$i18n.locale=='en'},'lang']" @click="$i18n.locale='en' ">En</span>
+          </li>
           <li>
             <router-link :to="{name:'table'}" active-class="active">menu3</router-link>
           </li>
@@ -65,6 +85,7 @@
           <li>
             <router-link :to="{name:'food'}" active-class="active">menu1</router-link>
           </li>
+
         </ul>
       </el-col>
     </el-row>
@@ -73,11 +94,23 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {Col, Row} from 'element-ui'
+  import {Col, Row, Dropdown, DropdownItem, DropdownMenu} from 'element-ui'
   export default {
     data: function () {
       return {}
     },
-    components: {"el-col": Col, "el-row": Row}
+    components: {
+      elCol: Col,
+      elRow: Row,
+      elDropdown: Dropdown,
+      elDropdownItem: DropdownItem,
+      elDropdownMenu: DropdownMenu
+    },
+    methods: {
+      //设置语言包
+      setLang(lang){
+        this.$i18n.locale = lang;
+      }
+    }
   }
 </script>
