@@ -183,7 +183,8 @@
     </el-tabs>
     <div class="pageaction">
       <li class="action">
-        <el-button type="text" class="fa fa-pencil" @click="titleEditDialogShow">编辑菜系</el-button>
+        <el-button type="text" class="fa fa-pencil" @click="titleEditDialogShow">重命名</el-button>
+        <el-button type="text" class="fa fa-plus" @click="titleAddDialogShow">添加标题</el-button>
       </li>
       <div class="type_view">
         <el-tooltip class="item" effect="dark" content="表格视图" placement="bottom">
@@ -219,7 +220,7 @@
     data() {
       return {
         titleName: "",
-        foodSerious: [{name: "user", label: "用户管理"}, {name: "config", label: "配置管理"}, {name: "role", label: "角色管理"}],
+        foodSerious: [],//[{name: "user", label: "用户管理"}, {name: "config", label: "配置管理"}, {name: "role", label: "角色管理"}],
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
@@ -238,7 +239,7 @@
           address: '上海市普陀区金沙江路 1516 弄'
         }],
         currentRow: null,
-        activeName: 'user',
+        activeName: '0',
         type_active: "table_view",
         titleEditSeriousVisible: false,
         loading2: false
