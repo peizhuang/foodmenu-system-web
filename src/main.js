@@ -7,6 +7,12 @@ import axios from 'axios'
 import VueI18n from 'vue-i18n'
 import messages from './locales/index'
 
+axios.defaults.baseURL = 'http://localhost:8360';
+axios.defaults.transformResponse = [function (data) {
+  let d = JSON.parse(data);
+  if (d.code != 0) throw d.msg || d.data;
+  return d.data;
+}]
 Vue.prototype.axios = axios;
 // install plugin
 Vue.use(VueI18n);

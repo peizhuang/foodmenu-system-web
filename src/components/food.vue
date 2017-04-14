@@ -114,9 +114,8 @@
 
 <template>
   <div class="food">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane :label="val.label" :name="val.name" v-for="(val ,index) of foodSerious">
-
+    <el-tabs v-model="activeId" @tab-click="handleClick">
+      <el-tab-pane :label="val.name" :name="val.id" v-for="(val ,index) in foodSerious">
         <elTable
           :data="tableData"
           highlight-current-row
@@ -160,26 +159,25 @@
             </template>
           </elTableColumn>
         </elTable>
-        <div v-show="type_active == 'picture_view'">
-          <el-row :gutter=20>
-            <el-col :xs="{span:12}" :sm="{span:8}" :md="{span:6}" :lg="{span:4}"
-                    v-for="(o, index) in [1,2,1,1,1,1,1,1,11,1]" :style="{marginTop:'20px'}">
-              <el-card :body-style="{padding:0}">
-                <img src="~assets/images/hamburger.png" class="image">
-                <div class="card_info">
-                  <li class="card_name_body"><span class="card_name">汉堡包</span></li>
-                  <div class="bottom clearfix">
-                    <li class="card_price"><b>￥:</b><span class="price">30</span></li>
-                    <el-button type="text" class="button edit">编辑</el-button>
-                    <el-button type="text" class="button delete">删除</el-button>
-                  </div>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-        </div>
-
       </el-tab-pane>
+      <div v-show="type_active == 'picture_view'">
+        <el-row :gutter=20>
+          <el-col :xs="{span:12}" :sm="{span:8}" :md="{span:6}" :lg="{span:4}"
+                  v-for="(o, index) in [1,2,1,1,1,1,1,1,11,1]" :style="{marginTop:'20px'}">
+            <el-card :body-style="{padding:0}">
+              <img src="~assets/images/hamburger.png" class="image">
+              <div class="card_info">
+                <li class="card_name_body"><span class="card_name">汉堡包</span></li>
+                <div class="bottom clearfix">
+                  <li class="card_price"><b>￥:</b><span class="price">30</span></li>
+                  <el-button type="text" class="button edit">编辑</el-button>
+                  <el-button type="text" class="button delete">删除</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
     </el-tabs>
     <div class="pageaction">
       <li class="action">
@@ -217,10 +215,29 @@
   import {TableColumn, Table, Tabs, TabPane, Tooltip, Col, Row, Card, Button, Dialog, Loading} from 'element-ui';
 
   export default {
+    created(){
+      this.axios({
+        method: 'post',
+        url: "/foodserious/index/list"
+      })
+        .then((d) => {
+          if (d.data.length > 0) {
+            for (let item of d.data) {
+              this.foodSerious.push({id: item.id, name: item.name});
+              this.seriousRelate[item.id] = item.name;
+            }
+            this.activeId = d.data[0].id;
+          }
+
+        }).catch(function (e) {
+        alert(e);
+      });
+    },
     data() {
       return {
         titleName: "",
-        foodSerious: [],//[{name: "user", label: "用户管理"}, {name: "config", label: "配置管理"}, {name: "role", label: "角色管理"}],
+        foodSerious: [],
+        seriousRelate: {},
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
@@ -239,9 +256,10 @@
           address: '上海市普陀区金沙江路 1516 弄'
         }],
         currentRow: null,
-        activeName: '0',
+        activeId: '',
         type_active: "table_view",
         titleEditSeriousVisible: false,
+        titleAddFlag: false,
         loading2: false
       }
 
@@ -264,36 +282,54 @@
     methods: {
       //显示标题信息修改模态框
       titleEditDialogShow(){
+        this.titleName = this.seriousRelate[this.activeId];
+        this.titleEditSeriousVisible = true;
+      },
+      titleAddDialogShow(){
+        this.titleName = "";
+        this.titleAddFlag = true;
         this.titleEditSeriousVisible = true;
       },
       //提交标题信息
       titleInfoSubmit(){
         this.titleEditSeriousVisible = false;
+        let data = {
+          name: this.titleName
+        };
+        if (!this.titleAddFlag) {
+          data.name = this.seriousRelate[this.activeId];
+          data.id = this.activeId;
+        }
+
         let load = Loading.service({
           target: ".food",
           text: "正在提交。。。"
         });
-        this.axios.post("sadf", {
-            title: this.titleName
-          }
-        ).then(function (d) {
+        this.axios.post("foodserious/index/edit", data).then((d) => {
+          console.log(d);
+          this.foodSerious.push({id: d.data.id, name: d.data.name});
+          this.seriousRelate[d.data.id] = d.data.name;
           load.close();
           this.titleEditSeriousVisible = false
         }).catch(function (e) {
           load.close();
-//          alert(e);
+          alert(e);
         });
+        this.titleAddFlag = false;
 
       },
 
       handleClick(tab, event){
         console.log(tab, event)
+        return false;
       },
       handleCurrentChange(val) {
         this.currentRow = val;
+        return false;
       },
       changeView(view_name){
         this.type_active = view_name;
+        return false;
       }
     }
   }
